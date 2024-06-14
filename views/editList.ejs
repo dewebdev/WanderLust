@@ -1,70 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit List</title>
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <form action="/listings/<%=listDetail._id%>?_method=PATCH" method="POST">
-      <span
-        >Title :<input
-          type="text"
-          placeholder="Enter the title"
-          value="<%=listDetail.title%>"
-          name="listing[title]"
-        />
-      </span>
-
-      <span
-        >Description :
-        <textarea name="listing[description]">
-<%=listDetail.description%></textarea
-        >
-      </span>
-
-      <span>
-        Image Url :
+<% layout('/layouts/boilerplate') -%>
+<body>
+  <div class="container mt-4">
+    <form
+      class="row g-3"
+      action="/listings/<%=listDetail._id%>?_method=PATCH"
+      method="POST"
+    >
+      <div class="col-12 mb-3">
+        <label for="inputTitle1" class="form-label">Title</label>
         <input
           type="text"
-          placeholder="Enter the Img URL"
+          class="form-control"
+          value="<%=listDetail.title%>"
+          name="listing[title]"
+          id="inputTitle1"
+          placeholder="Enter the title"
+        />
+      </div>
+      <div class="col-12 mb-3">
+        <label for="inputImageUrl" class="form-label">Image URL</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputImageUrl"
+          placeholder="Enter the Image URL"
           value="<%=listDetail.image%>"
           name="listing[image]"
         />
-      </span>
+      </div>
 
-      <span>
-        Price :
+      <div class="col-12 mb-3">
+        <label for="inputDescription" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="inputDescription"
+          aria-label="Description"
+          name="listing[description]"
+          rows="4"
+        >
+<%=listDetail.description%></textarea
+        >
+      </div>
+
+      <div class="col-12 mb-3">
+        <label for="inputPrice" class="form-label">Price</label>
+        <div class="input-group">
+          <span class="input-group-text">₹</span>
+          <input
+            type="text"
+            class="form-control"
+            aria-label="Rupee amount"
+            value="<%=listDetail.price%>"
+            name="listing[price]"
+            id="inputPrice"
+          />
+        </div>
+      </div>
+
+      <div class="col-12 mb-3">
+        <label for="inputLocation" class="form-label">Location</label>
         <input
           type="text"
-          placeholder="Enter the Price"
-          value="<%=listDetail.price%>"
-          name="listing[price]"
-        />
-      </span>
-
-      <span>
-        Location :
-        <input
-          type="text"
-          placeholder="Enter the Location"
-          value=" <%=listDetail.location%>"
+          class="form-control"
+          id="inputLocation"
+          value="<%=listDetail.location%>"
           name="listing[location]"
         />
-      </span>
+      </div>
 
-      <span>
-        Country :
-        <input
-          type="text"
-          placeholder="Enter the country"
-          value="<%=listDetail.country%>"
-          name="listing[country]"
-        />
-      </span>
+      <div class="col-12 mb-3">
+        <label for="inputCountry" class="form-label">Country</label>
+        <select id="inputCountry" class="form-select" name="listing[country]">
+          <option selected>Choose...</option>
+          <option selected><%=listDetail.country%></option>
+          <option>...</option>
+        </select>
+      </div>
 
-      <span><button type="submit">Submit Edit</button> </span>
+      <div class="col-12 d-flex justify-content-between gap-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button
+          type="submit"
+          formaction="/listings/<%=listDetail._id%>?_method=DELETE"
+          class="btn btn-danger"
+        >
+          Delete
+        </button>
+      </div>
     </form>
-  </body>
-</html>
+  </div>
+  <style>
+    .container {
+      max-width: 600px;
+    }
+    .form-control,
+    .form-select,
+    .btn {
+      width: 100%;
+    }
+    .input-group-text {
+      min-width: 45px;
+    }
+  </style>
+</body>

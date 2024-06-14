@@ -5,13 +5,16 @@ const PORT = 8080;
 const path = require("path");
 const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use(methodOverride("_method"));
+app.engine("ejs", ejsMate);
 
 main()
   .then((res) => {
@@ -22,6 +25,10 @@ main()
 async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
 }
+
+app.get("/", async (req, res) => {
+  res.render("home.ejs");
+});
 
 app.get("/listings", async (req, res) => {
   const allListings = await Listing.find({});

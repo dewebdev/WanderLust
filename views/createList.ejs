@@ -1,63 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create List</title>
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <form action="/listings/new" method="POST">
-      <span
-        >Title :<input
-          type="text"
-          placeholder="Enter the title"
-          name="listing[title]"
-        />
-      </span>
-
-      <span
-        >Description :
-        <textarea name="listing[description]"></textarea>
-      </span>
-
-      <span>
-        Image Url :
+<% layout('/layouts/boilerplate') -%>
+<body>
+  <div class="container mt-4">
+    <form class="row g-3" action="/listings/new" method="POST">
+      <div class="col-12 mb-3">
+        <label for="inputTitle1" class="form-label">Title</label>
         <input
           type="text"
-          placeholder="Enter the Img URL"
+          class="form-control"
+          name="listing[title]"
+          id="inputTitle1"
+          placeholder="Enter the title"
+        />
+      </div>
+      <div class="col-12 mb-3">
+        <label for="inputImageUrl" class="form-label">Image URL</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputImageUrl"
+          placeholder="Enter the Image URL"
           name="listing[image]"
         />
-      </span>
+      </div>
 
-      <span>
-        Price :
+      <div class="col-12 mb-3">
+        <label for="inputDescription" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="inputDescription"
+          aria-label="Description"
+          name="listing[description]"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="col-12 mb-3">
+        <label for="inputPrice" class="form-label">Price</label>
+        <div class="input-group">
+          <span class="input-group-text">₹</span>
+          <input
+            type="text"
+            class="form-control"
+            aria-label="Rupee amount"
+            name="listing[price]"
+            id="inputPrice"
+          />
+        </div>
+      </div>
+
+      <div class="col-12 mb-3">
+        <label for="inputLocation" class="form-label">Location</label>
         <input
           type="text"
-          placeholder="Enter the Price"
-          name="listing[price]"
-        />
-      </span>
-
-      <span>
-        Location :
-        <input
-          type="text"
-          placeholder="Enter the Location"
+          class="form-control"
+          id="inputLocation"
           name="listing[location]"
         />
-      </span>
+      </div>
 
-      <span>
-        Country :
-        <input
-          type="text"
-          placeholder="Enter the country"
-          name="listing[country]"
-        />
-      </span>
+      <div class="col-12 mb-3">
+        <label for="inputCountry" class="form-label">Country</label>
+        <select id="inputCountry" class="form-select" name="listing[country]">
+          <option selected>Choose...</option>
+          <option>India</option>
+          <option>United States</option>
+          <option>United Kingdom</option>
+          <option>Canada</option>
+          <option>Australia</option>
+        </select>
+      </div>
 
-      <span><button type="submit">Submit Edit</button> </span>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
     </form>
-  </body>
-</html>
+  </div>
+  <style>
+    .container {
+      max-width: 600px;
+    }
+    .form-control,
+    .form-select,
+    .btn {
+      width: 100%;
+    }
+    .input-group-text {
+      min-width: 45px;
+    }
+  </style>
+</body>

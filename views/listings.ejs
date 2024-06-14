@@ -1,19 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>All Listings</h1>
-    <form action="/listings/new" method="get">
-      <button type="submit">Create a List</button>
-    </form>
-    <ul>
-      <%allListings.forEach(list => {%>
-      <li><a href="/listings/<%=list._id%>"><%=list.title%></a></li>
-      <%});%>
-    </ul>
-  </body>
-</html>
+<% layout('/layouts/boilerplate') -%>
+<head>
+  <style>
+    .card-img-top.custom-img {
+      height: 200px;
+      object-fit: cover;
+    }
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <% allListings.forEach(list => { %>
+      <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
+        <a href="/listings/<%= list._id %>/edit">
+          <div class="card h-100">
+            <img
+              src="<%= list.image %>"
+              class="card-img-top custom-img"
+              alt="..."
+            />
+            <div class="card-body">
+              <p class="card-text">
+                <%= list.title %> <br />
+                ₹<%= list.price.toLocaleString("en-IN") %>
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</body>
