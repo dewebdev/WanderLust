@@ -2,9 +2,10 @@
 <body>
   <div class="container mt-4">
     <form
-      class="row g-3"
+      class="row g-3 needs-validation"
       action="/listings/<%=listDetail._id%>?_method=PATCH"
       method="POST"
+      novalidate
     >
       <div class="col-12 mb-3">
         <label for="inputTitle1" class="form-label">Title</label>
@@ -15,8 +16,12 @@
           name="listing[title]"
           id="inputTitle1"
           placeholder="Enter the title"
+          required
         />
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please enter the title.</div>
       </div>
+
       <div class="col-12 mb-3">
         <label for="inputImageUrl" class="form-label">Image URL</label>
         <input
@@ -26,7 +31,9 @@
           placeholder="Enter the Image URL"
           value="<%=listDetail.image%>"
           name="listing[image]"
+          required
         />
+        <div class="invalid-feedback">Please provide a valid URL.</div>
       </div>
 
       <div class="col-12 mb-3">
@@ -37,9 +44,12 @@
           aria-label="Description"
           name="listing[description]"
           rows="4"
+          required
         >
 <%=listDetail.description%></textarea
         >
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please enter the description.</div>
       </div>
 
       <div class="col-12 mb-3">
@@ -53,7 +63,9 @@
             value="<%=listDetail.price%>"
             name="listing[price]"
             id="inputPrice"
+            required
           />
+          <div class="invalid-feedback">Please provide a valid price.</div>
         </div>
       </div>
 
@@ -65,16 +77,24 @@
           id="inputLocation"
           value="<%=listDetail.location%>"
           name="listing[location]"
+          required
         />
+        <div class="invalid-feedback">Please select a valid location.</div>
       </div>
 
       <div class="col-12 mb-3">
         <label for="inputCountry" class="form-label">Country</label>
-        <select id="inputCountry" class="form-select" name="listing[country]">
-          <option selected>Choose...</option>
-          <option selected><%=listDetail.country%></option>
-          <option>...</option>
+        <select
+          id="inputCountry"
+          class="form-select"
+          name="listing[country]"
+          required
+        >
+          <option selected value="">Choose...</option>
+          <option selected value="1"><%=listDetail.country%></option>
+          <option value="2">India</option>
         </select>
+        <div class="invalid-feedback">Please select a valid country.</div>
       </div>
 
       <div class="col-12 d-flex justify-content-between gap-2">
