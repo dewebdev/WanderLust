@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = 8080;
 const path = require("path");
-const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const wrapAysnc = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
-const {listingSchema} = require("./schema.js");
+const cookieParser = require("cookie-parser");
+
+const listings = require("./routes/listing.js");
+const reviews = require("./routes/review.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -18,6 +19,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
+
+app.use(cookieParser("if0rg0t!10"));
 
 main()
   .then((res) => {
@@ -30,69 +33,16 @@ async function main() {
 }
 
 app.get("/", (req, res) => {
+  res.cookie("username", "Dhanush", {signed: true});
   res.render("home.ejs");
 });
 
-app.get(
-  "/listings",
-  wrapAysnc(async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings.ejs", {allListings});
-  })
-);
-
-app.get("/listings/new", (req, res) => {
-  res.render("createList.ejs");
+app.get("/verify", (req, res, next) => {
+  console.log(req.signedCookies);
 });
 
-app.post(
-  "/listings/new",
-  wrapAysnc(async (req, res, next) => {
-    let result = listingSchema.validate(req.body);
-    if (result.error) {
-      throw new expressError(400, result.error);
-    }
-    const list = new Listing(req.body.listing);
-    await list.save();
-    res.redirect("/listings");
-  })
-);
-
-app.get(
-  "/listings/:id",
-  wrapAysnc(async (req, res) => {
-    let {id} = req.params;
-    let listDetail = await Listing.findById(id);
-    res.render("showList.ejs", {listDetail});
-  })
-);
-
-app.get(
-  "/listings/:id/edit",
-  wrapAysnc(async (req, res) => {
-    let {id} = req.params;
-    let listDetail = await Listing.findById(id);
-    res.render("editList.ejs", {listDetail});
-  })
-);
-
-app.patch(
-  "/listings/:id",
-  wrapAysnc(async (req, res) => {
-    let {id} = req.params;
-    await Listing.findByIdAndUpdate(id, req.body.listing);
-    res.redirect("/listings");
-  })
-);
-
-app.delete(
-  "/listings/:id",
-  wrapAysnc(async (req, res) => {
-    let {id} = req.params;
-    await Listing.findByIdAndDelete(id);
-    res.redirect("/listings");
-  })
-);
+app.use("/listings", listings);
+app.use("/listings/:id/reviews", reviews);
 
 app.all("*", (req, res, next) => {
   next(new expressError(404, "Page not found"));

@@ -1,79 +1,137 @@
 <% layout('/layouts/boilerplate') -%>
 <body>
-  <div class="container">
-    <div class="background-image-container">
-      <div class="overlay">
-        <div class="content">
-          <h2 class="text-white"><%=listDetail.title%></h2>
-          <p class="text-white"><%=listDetail.description%></p>
-          <p class="h5 text-white">
-            Price: ₹<%=listDetail.price.toLocaleString("en-IN")%>
-          </p>
-          <p class="h5 text-white">Location: <%=listDetail.location%></p>
-          <p class="h5 text-white">Country: <%=listDetail.country%></p>
+  <div class="container mt-2 border p-4">
+    <h2 class="text-primary"><%=listDetail.title%></h2>
+    <p><%=listDetail.description%></p>
+    <div class="img-container">
+      <img
+        src="<%=listDetail.image%>"
+        alt="<%=listDetail.title%>"
+        class="img-fluid rounded mb-3"
+      />
+    </div>
+    <p class="h5">Price: ₹<%=listDetail.price.toLocaleString("en-IN")%></p>
+    <p class="h5">Location: <%=listDetail.location%></p>
+    <p class="h5">Country: <%=listDetail.country%></p>
 
-          <div class="d-flex flex-column flex-md-row mt-4 gap-4">
-            <form
-              action="/listings/<%=listDetail._id%>/edit"
-              method="get"
-              class="w-100"
-            >
-              <button type="submit" class="btn btn-primary btn-block w-100">
-                Edit this List
-              </button>
-            </form>
-            <form
-              action="/listings/<%=listDetail._id%>?_method=DELETE"
-              method="POST"
-              class="w-100"
-            >
-              <button type="submit" class="btn btn-danger btn-block w-100">
-                Delete the List
-              </button>
-            </form>
+    <div class="d-flex mt-4 gap-4">
+      <form
+        action="/listings/<%=listDetail._id%>/edit"
+        method="get"
+        class="mr-2"
+      >
+        <button type="submit" class="btn btn-primary btn-block">
+          Edit this List
+        </button>
+      </form>
+      <form action="/listings/<%=listDetail._id%>?_method=DELETE" method="POST">
+        <button type="submit" class="btn btn-danger btn-block">
+          Delete the List
+        </button>
+      </form>
+    </div>
+  </div>
+  <hr />
+  <!-- review section -->
+
+  <div class="container p-4 border rounded shadow">
+    <h3 class="text-center mb-4">Leave a Comment Below</h3>
+    <form
+      action="/listings/<%=listDetail._id%>/reviews"
+      method="POST"
+      class="needs-validation"
+      novalidate
+    >
+      <div class="mb-3">
+        <label for="ratingLabel" class="form-label">Rating</label>
+        <input
+          type="range"
+          class="form-range"
+          min="1"
+          max="5"
+          step="1"
+          value="5"
+          id="ratingLabel"
+          name="review[rating]"
+          required
+        />
+        <div class="d-flex justify-content-between">
+          <span>1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>4</span>
+          <span>5</span>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="commentLabel" class="form-label">Comment</label>
+        <textarea
+          class="form-control"
+          id="commentLabel"
+          rows="3"
+          placeholder="Write your comment here..."
+          name="review[comment]"
+          required
+        ></textarea>
+        <div class="invalid-feedback">Please enter the comment above.</div>
+      </div>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-dark">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <hr />
+
+  <!-- review display section -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-white py-3">
+            <h4 class="card-title mb-0">Customer Reviews</h4>
+          </div>
+          <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+              <% listDetail.review.forEach(review => { %>
+              <div class="col-lg-4">
+                <div class="card border-0 rounded shadow-sm h-100">
+                  <div class="card-body">
+                    <h5 class="card-title"><%= review.comment %></h5>
+                    <p class="card-text">Rating: <%= review.rating %> / 5</p>
+                    <p class="card-text"><%= review.content %></p>
+                    <form
+                      action="/listings/<%=listDetail._id%>/reviews/<%=review._id%>?_method=DELETE"
+                      method="post"
+                    >
+                      <button type="submit" class="btn btn-dark">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <% }); %> <% if (listDetail.review.length === 0) { %>
+              <p class="text-muted">No reviews yet.</p>
+              <% } %>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <style>
-    .background-image-container {
-      position: relative;
-      background-image: url("<%=listDetail.image%>");
-      background-size: cover;
-      background-position: center;
-      border-radius: 10px;
-      overflow: hidden;
+    .img-container {
       width: 100%;
-      height: 500px; /* Adjust the height as needed */
+      height: 400px; /* Adjust this value as needed */
+      overflow: hidden;
+      margin: 10px auto; /* Center the image container */
     }
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
+
+    .img-container img {
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0.3) 0%,
-        rgba(0, 0, 0, 0.7) 100%
-      ); /* Gradient overlay for readability */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-    .content {
-      color: white;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Text shadow for readability */
-    }
-    .content h2,
-    .content p {
-      margin: 10px 0;
-    }
-    .btn-block {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      object-fit: cover;
     }
   </style>
 </body>
