@@ -1,23 +1,55 @@
 <% layout('/layouts/boilerplate') -%>
-  <body>
-    <h2><%=listDetail.title%></h2>
+<body>
+  <div class="container mt-2 border p-4">
+    <h2 class="text-primary"><%=listDetail.title%></h2>
     <p><%=listDetail.description%></p>
-    <img
-      src="<%=listDetail.image%>"
-      alt="<%=listDetail.title%>"
-      width="600"
-      height="400"
-    />
-    <p>Price : <%=listDetail.price.toLocaleString("en-IN")%></p>
-    <p>Location : <%=listDetail.location%></p>
-    <p>Country : <%=listDetail.country%></p>
+    <div class="text-center mb-3">
+      <div class="img-container">
+        <img
+          src="<%=listDetail.image%>"
+          alt="<%=listDetail.title%>"
+          class="img-fluid rounded"
+        />
+      </div>
+    </div>
+    <p class="h5">Price: ₹<%=listDetail.price.toLocaleString("en-IN")%></p>
+    <p class="h5">Location: <%=listDetail.location%></p>
+    <p class="h5">Country: <%=listDetail.country%></p>
 
-    <form action="/listings/<%=listDetail._id%>/edit" method="get">
-      <button type="submit">Edit this List</button>
-    </form>
-  </br>
-    <form action="/listings/<%=listDetail._id%>?_method=DELETE" method="POST">
-      <button type="submit">Delete the List</button>
-    </form>
-  </body>
-
+    <div class="d-flex flex-column flex-md-row mt-4 gap-4">
+      <form
+        action="/listings/<%=listDetail._id%>/edit"
+        method="get"
+        class="w-100"
+      >
+        <button type="submit" class="btn btn-primary btn-block w-100">
+          Edit this List
+        </button>
+      </form>
+      <form
+        action="/listings/<%=listDetail._id%>?_method=DELETE"
+        method="POST"
+        class="w-100"
+      >
+        <button type="submit" class="btn btn-danger btn-block w-100">
+          Delete the List
+        </button>
+      </form>
+    </div>
+  </div>
+  <style>
+    .img-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+    }
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</body>
