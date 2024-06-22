@@ -1,55 +1,79 @@
 <% layout('/layouts/boilerplate') -%>
 <body>
-  <div class="container mt-2 border p-4">
-    <h2 class="text-primary"><%=listDetail.title%></h2>
-    <p><%=listDetail.description%></p>
-    <div class="text-center mb-3">
-      <div class="img-container">
-        <img
-          src="<%=listDetail.image%>"
-          alt="<%=listDetail.title%>"
-          class="img-fluid rounded"
-        />
-      </div>
-    </div>
-    <p class="h5">Price: ₹<%=listDetail.price.toLocaleString("en-IN")%></p>
-    <p class="h5">Location: <%=listDetail.location%></p>
-    <p class="h5">Country: <%=listDetail.country%></p>
+  <div class="container">
+    <div class="background-image-container">
+      <div class="overlay">
+        <div class="content">
+          <h2 class="text-white"><%=listDetail.title%></h2>
+          <p class="text-white"><%=listDetail.description%></p>
+          <p class="h5 text-white">
+            Price: ₹<%=listDetail.price.toLocaleString("en-IN")%>
+          </p>
+          <p class="h5 text-white">Location: <%=listDetail.location%></p>
+          <p class="h5 text-white">Country: <%=listDetail.country%></p>
 
-    <div class="d-flex flex-column flex-md-row mt-4 gap-4">
-      <form
-        action="/listings/<%=listDetail._id%>/edit"
-        method="get"
-        class="w-100"
-      >
-        <button type="submit" class="btn btn-primary btn-block w-100">
-          Edit this List
-        </button>
-      </form>
-      <form
-        action="/listings/<%=listDetail._id%>?_method=DELETE"
-        method="POST"
-        class="w-100"
-      >
-        <button type="submit" class="btn btn-danger btn-block w-100">
-          Delete the List
-        </button>
-      </form>
+          <div class="d-flex flex-column flex-md-row mt-4 gap-4">
+            <form
+              action="/listings/<%=listDetail._id%>/edit"
+              method="get"
+              class="w-100"
+            >
+              <button type="submit" class="btn btn-primary btn-block w-100">
+                Edit this List
+              </button>
+            </form>
+            <form
+              action="/listings/<%=listDetail._id%>?_method=DELETE"
+              method="POST"
+              class="w-100"
+            >
+              <button type="submit" class="btn btn-danger btn-block w-100">
+                Delete the List
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <style>
-    .img-container {
+    .background-image-container {
+      position: relative;
+      background-image: url("<%=listDetail.image%>");
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      overflow: hidden;
+      width: 100%;
+      height: 500px; /* Adjust the height as needed */
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.7) 100%
+      ); /* Gradient overlay for readability */
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 100%;
-      height: 300px;
-      overflow: hidden;
+      text-align: center;
+      padding: 20px;
     }
-    .img-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .content {
+      color: white;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Text shadow for readability */
+    }
+    .content h2,
+    .content p {
+      margin: 10px 0;
+    }
+    .btn-block {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
   </style>
 </body>
