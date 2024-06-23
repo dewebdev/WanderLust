@@ -33,7 +33,6 @@ const listingSchema = new Schema({
 
 listingSchema.post("findOneAndDelete", async (deletedList) => {
   await Review.deleteMany({_id: {$in: deletedList.review}});
-  console.log("reviews deleted successfully upon list deleted");
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
