@@ -9,9 +9,13 @@ const expressError = require("./utils/expressError.js");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
+const User = require("./models/user.js");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
+const wrapAsync = require("./utils/wrapAsync.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -33,6 +37,9 @@ app.use(
 );
 
 app.use(flash());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 main()
   .then((res) => {
@@ -44,18 +51,55 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
 }
 
-app.get("/", (req, res) => {
-  res.render("home.ejs");
-});
-
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
 
+app.get("/", (req, res) => {
+  res.render("home.ejs");
+});
+
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
+
+app.get("/signup", (req, res) => {
+  res.render("signup.ejs");
+});
+
+app.post(
+  "/signup",
+  wrapAsync(async (req, res) => {
+    try {
+      const {username, email, password} = req.body;
+      const newUser = new User({
+        email,
+        username,
+      });
+      await User.register(newUser, password);
+      req.flash("success", "User signup successful :)");
+      res.redirect("/login");
+    } catch (e) {
+      req.flash("error", e.message);
+      res.redirect("/signup");
+    }
+  })
+);
+
+app.get("/login", (req, res) => {
+  res.render("login.ejs");
+});
+
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true,
+    successRedirect: "/listings",
+    successFlash: "Welcome to WanderLust",
+  })
+);
 
 app.all("*", (req, res, next) => {
   next(new expressError(404, "Page not found"));
