@@ -15,8 +15,8 @@ const LocalStrategy = require("passport-local");
 
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
+const users = require("./routes/user.js");
 const wrapAsync = require("./utils/wrapAsync.js");
-const {saveRedirectUrl} = require("./middleware.js");
 
 // Middleware setup
 app.set("view engine", "ejs");
@@ -75,61 +75,7 @@ app.get("/", (req, res) => {
 
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
-
-app.get("/signup", (req, res) => {
-  res.render("signup.ejs");
-});
-
-app.post(
-  "/signup",
-  wrapAsync(async (req, res) => {
-    try {
-      const {username, email, password} = req.body;
-      const newUser = new User({
-        email,
-        username,
-      });
-      const registeredUser = await User.register(newUser, password);
-      req.login(registeredUser, (err) => {
-        if (err) {
-          return next(err);
-        }
-        req.flash("success", "User signup successful :)");
-        res.redirect("/listings");
-      });
-    } catch (e) {
-      req.flash("error", e.message);
-      res.redirect("/signup");
-    }
-  })
-);
-
-app.get("/login", (req, res) => {
-  res.render("login.ejs");
-});
-
-app.post(
-  "/login",
-  saveRedirectUrl,
-  passport.authenticate("local", {
-    failureRedirect: "/login",
-    failureFlash: true,
-    successFlash: "Welcome to WanderLust",
-  }),
-  async (req, res) => {
-    res.redirect(res.locals.redirectUrl);
-  }
-);
-
-app.get("/logout", (req, res) => {
-  req.logOut((err) => {
-    if (err) {
-      next(err);
-    }
-    req.flash("success", "You are logged out now");
-    res.redirect("/listings");
-  });
-});
+app.use("/", users);
 
 // Error handling middleware
 app.all("*", (req, res, next) => {
