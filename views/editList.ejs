@@ -3,7 +3,7 @@
   <div class="container mt-4">
     <form
       class="row g-3 needs-validation"
-      action="/listings/<%=listDetail._id%>?_method=PATCH"
+      action="/listings/<%=listing._id%>?_method=PATCH"
       method="POST"
       novalidate
     >
@@ -12,7 +12,7 @@
         <input
           type="text"
           class="form-control"
-          value="<%=listDetail.title%>"
+          value="<%=listing.title%>"
           name="listing[title]"
           id="inputTitle1"
           placeholder="Enter the title"
@@ -29,7 +29,7 @@
           class="form-control"
           id="inputImageUrl"
           placeholder="Enter the Image URL"
-          value="<%=listDetail.image%>"
+          value="<%=listing.image%>"
           name="listing[image]"
           required
         />
@@ -46,7 +46,7 @@
           rows="4"
           required
         >
-<%=listDetail.description%></textarea
+<%=listing.description%></textarea
         >
         <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Please enter the description.</div>
@@ -60,7 +60,7 @@
             type="text"
             class="form-control"
             aria-label="Rupee amount"
-            value="<%=listDetail.price%>"
+            value="<%=listing.price%>"
             name="listing[price]"
             id="inputPrice"
             required
@@ -75,7 +75,7 @@
           type="text"
           class="form-control"
           id="inputLocation"
-          value="<%=listDetail.location%>"
+          value="<%=listing.location%>"
           name="listing[location]"
           required
         />
@@ -91,7 +91,7 @@
           required
         >
           <option selected value="">Choose...</option>
-          <option selected value="1"><%=listDetail.country%></option>
+          <option selected value="1"><%=listing.country%></option>
           <option value="2">India</option>
         </select>
         <div class="invalid-feedback">Please select a valid country.</div>
@@ -101,7 +101,7 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <button
           type="submit"
-          formaction="/listings/<%=listDetail._id%>?_method=DELETE"
+          formaction="/listings/<%=listing._id%>?_method=DELETE"
           class="btn btn-danger"
         >
           Delete
