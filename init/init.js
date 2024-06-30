@@ -19,7 +19,6 @@ const initDB = async () => {
     owner: "667fe89ecef7704daf025e16",
   }));
   await Listing.insertMany(initData.data);
-  console.log(initData);
   console.log("Dummy data inserted Successfully");
 };
 

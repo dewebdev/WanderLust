@@ -16,7 +16,9 @@ module.exports.renderCreateListingForm = async (req, res) => {
 module.exports.createListing = async (req, res, next) => {
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
-  console.log(newListing);
+  const url = req.file.path;
+  const filename = req.file.filename;
+  newListing.image = {url, filename};
   await newListing.save();
   req.flash("success", "Listing Created");
   res.redirect("/listings");

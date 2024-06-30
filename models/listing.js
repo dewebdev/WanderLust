@@ -12,7 +12,8 @@ const listingSchema = new Schema({
     default: "Please enter the description by editing the page",
   },
   image: {
-    type: Object,
+    url: String,
+    filename: String,
   },
   price: {
     type: Number,

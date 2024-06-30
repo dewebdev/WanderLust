@@ -5,7 +5,7 @@
     <p><%=listing.description%></p>
     <div class="img-container">
       <img
-        src="<%=listing.image%>"
+        src="<%=listing.image.url%>"
         alt="<%=listing.title%>"
         class="img-fluid rounded mb-3"
       />
@@ -119,7 +119,8 @@
                       Rated: <%= review.rating %> stars
                     </p>
 
-                    <% if(currentUser._id.equals(review.created_by._id)) { %>
+                    <% if(currentUser &&
+                    currentUser._id.equals(review.created_by._id)) { %>
                     <form
                       action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE"
                       method="post"

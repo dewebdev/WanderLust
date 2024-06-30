@@ -6,6 +6,7 @@
       action="/listings/new"
       method="POST"
       novalidate
+      enctype="multipart/form-data"
     >
       <div class="col-12 mb-3">
         <label for="inputTitle1" class="form-label">Title</label>
@@ -21,12 +22,11 @@
         <div class="invalid-feedback">Please enter the title.</div>
       </div>
       <div class="col-12 mb-3">
-        <label for="inputImageUrl" class="form-label">Image URL</label>
+        <label for="inputImageUrl" class="form-label">Upload Image</label>
         <input
-          type="text"
+          type="file"
           class="form-control"
           id="inputImageUrl"
-          placeholder="Enter the Image URL"
           name="listing[image]"
           required
         />
