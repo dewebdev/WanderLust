@@ -26,7 +26,12 @@ router
 router
   .route("/:id")
   .get(wrapAsync(listingController.showListingById))
-  .patch(isLoggedIn, isOwner, wrapAsync(listingController.updateListingById))
+  .patch(
+    isLoggedIn,
+    isOwner,
+    upload.single("listing[image]"),
+    wrapAsync(listingController.updateListingById)
+  )
   .delete(isLoggedIn, isOwner, wrapAsync(listingController.deleteListingById));
 
 // Route to render the form to edit a listing by ID

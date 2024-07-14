@@ -6,6 +6,7 @@
       action="/listings/<%=listing._id%>?_method=PATCH"
       method="POST"
       novalidate
+      enctype="multipart/form-data"
     >
       <div class="col-12 mb-3">
         <label for="inputTitle1" class="form-label">Title</label>
@@ -23,17 +24,25 @@
       </div>
 
       <div class="col-12 mb-3">
-        <label for="inputImageUrl" class="form-label">Image URL</label>
+        <label for="previewImg" class="form-label">Preview Image</label>
+        <br />
+        <img
+          id="previewImg"
+          src="<%=reducedPreviewImage%>"
+          alt="Preview Image"
+          class="img-fluid rounded border p-2"
+        />
+      </div>
+
+      <div class="col-12 mb-3">
+        <label for="inputImageUrl" class="form-label">Upload New Image</label>
         <input
-          type="text"
+          type="file"
           class="form-control"
           id="inputImageUrl"
-          placeholder="Enter the Image URL"
-          value="<%=listing.image%>"
           name="listing[image]"
-          required
         />
-        <div class="invalid-feedback">Please provide a valid URL.</div>
+        <div class="invalid-feedback">Please provide a valid image.</div>
       </div>
 
       <div class="col-12 mb-3">
@@ -79,7 +88,7 @@
           name="listing[location]"
           required
         />
-        <div class="invalid-feedback">Please select a valid location.</div>
+        <div class="invalid-feedback">Please enter a valid location.</div>
       </div>
 
       <div class="col-12 mb-3">
@@ -90,7 +99,7 @@
           name="listing[country]"
           required
         >
-          <option selected value="">Choose...</option>
+          <option value="">Choose...</option>
           <option selected value="1"><%=listing.country%></option>
           <option value="2">India</option>
         </select>
@@ -98,11 +107,11 @@
       </div>
 
       <div class="col-12 d-flex justify-content-between gap-2">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
         <button
           type="submit"
           formaction="/listings/<%=listing._id%>?_method=DELETE"
-          class="btn btn-danger"
+          class="btn btn-danger w-100"
         >
           Delete
         </button>
@@ -112,6 +121,10 @@
   <style>
     .container {
       max-width: 600px;
+    }
+    .img-fluid {
+      max-width: 100%;
+      height: auto;
     }
     .form-control,
     .form-select,
