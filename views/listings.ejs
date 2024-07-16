@@ -8,10 +8,108 @@
     a {
       text-decoration: none;
     }
+    .feature-icons-container {
+      width:100%;
+      overflow-x: auto; /* Enable horizontal scrollbar */
+      white-space: nowrap; /* Keep icons in one line */
+      background-color: whitesmoke;
+      padding: 6px;
+border-radius: 10px;
+
+    }
+    .feature-icons {
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+    
+    }
+    .feature-icons .icon {
+      text-align: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+  
+    .feature-icons .icon span {
+      display: block;
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+    .price-display {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .filters-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+    /* Adjust width of filter section and price display switch */
+    .filters-section .filters-container {
+      width:100%;
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Filters and Price Display Section -->
+    <div class="filters-section">
+      <!-- Feature Icons Section with Horizontal Scrollbar -->
+      <div class="filters-container">
+        <div class="feature-icons-container">
+          <div class="feature-icons">
+            <div class="icon">
+              <i class="fas fa-swimmer"></i>
+              <span>Beachside</span>
+            </div>
+            <div class="icon">
+              <i class="fas fa-tree"></i>
+              <span>Mountains</span>
+            </div>
+            <div class="icon">
+              <i class="fas fa-utensils"></i>
+              <span>Restaurants</span>
+            </div>
+            <div class="icon">
+              <i class="fas fa-store-alt"></i>
+              <span>Shopping</span>
+            </div>
+            <div class="icon">
+              <i class="fas fa-hiking"></i>
+              <span>Hiking</span>
+            </div>
+            <div class="icon">
+              <i class="fas fa-bicycle"></i>
+              <span>Cycling</span>
+            </div>
+            <div class="icon">
+              <i class="fas fa-paw"></i>
+              <span>Pet-friendly</span>
+            </div>
+            <div class="icon">
+              <i class="fas fa-car"></i>
+              <span>Parking</span>
+            </div>
+            <div class="icon">
+              <i class="fas fa-sun"></i>
+              <span>Sunny</span>
+            </div>
+            <div class="icon">
+              <i class="fas fa-snowflake"></i>
+              <span>Snowy</span>
+            </div>
+            <!-- Add more icons as needed -->
+          </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+    <hr/>
+
+    <!-- Listings Section -->
     <div class="row">
       <% allListings.forEach(list => { %>
       <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
@@ -25,7 +123,9 @@
             <div class="card-body">
               <p class="card-text">
                 <%= list.title %> <br />
-                ₹<%= list.price %>
+                <span class="price-display"
+                  >₹<%= list.price.toLocaleString("en-IN") %></span
+                >
               </p>
             </div>
           </div>

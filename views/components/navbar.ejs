@@ -19,12 +19,22 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/listings">All Listings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/listings/new">Add New</a>
+          <a class="nav-link" href="/listings">Explore</a>
         </li>
       </ul>
+
+      <!-- Search bar -->
+      <% if(currentUser) { %>
+      <form class="d-flex mx-auto my-2 my-lg-0">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-dark" type="submit">Search</button>
+      </form>
+      <% }%>
 
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <% if(!currentUser) { %>
@@ -39,6 +49,11 @@
           >
         </li>
         <% }%> <% if(currentUser) { %>
+        <li class="nav-item">
+          <a class="btn btn-outline-dark mx-1 mb-2 mb-lg-0" href="/listings/new"
+            >List property</a
+          >
+        </li>
         <li class="nav-item">
           <a class="btn btn-outline-danger mx-1 mb-2 mb-lg-0" href="/logout"
             >Logout</a
@@ -58,6 +73,10 @@
   }
 
   .navbar-nav .btn {
+    width: 100%;
+  }
+
+  .navbar-nav .form-control {
     width: 100%;
   }
 
