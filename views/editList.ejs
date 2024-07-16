@@ -99,9 +99,12 @@
           name="listing[country]"
           required
         >
-          <option value="">Choose...</option>
-          <option selected value="1"><%=listing.country%></option>
-          <option value="2">India</option>
+          <option selected value="<%=listing.country%>">
+            <%=listing.country%>
+          </option>
+          <% if(listing.country!=="India"){%>
+          <option value="India">India</option>
+          <%}%>
         </select>
         <div class="invalid-feedback">Please select a valid country.</div>
       </div>

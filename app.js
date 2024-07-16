@@ -12,6 +12,7 @@ const ejsMate = require("ejs-mate");
 const expressError = require("./utils/expressError.js");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const User = require("./models/user.js");
 const passport = require("passport");
@@ -29,12 +30,15 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
-app.use(cookieParser("if0rg0t!10"));
+app.use(cookieParser(process.env.SESSION_SECRET));
 
 // Session middleware
 app.use(
   session({
-    secret: "if0rg0t!10",
+    secret: process.env.SESSION_SECRET,
+    store: MongoStore.create({
+      mongoUrl: process.env.ATLAS_CLUSTER_CONNECTION_STRING,
+    }),
     resave: false,
     saveUninitialized: true,
     cookie: {maxAge: 600000000},
@@ -61,7 +65,7 @@ main()
   .catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
+  await mongoose.connect(process.env.ATLAS_CLUSTER_CONNECTION_STRING);
 }
 
 // Set local variables for flash messages
@@ -73,9 +77,9 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.get("/", (req, res) => {
-  res.render("home.ejs");
-});
+// app.get("/", (req, res) => {
+//   res.render("home.ejs");
+// });
 
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
